@@ -1,7 +1,8 @@
 type Recipe {
   id: ID! @unique
+  createdAt: DateTime!
   name: String!
   title: String!
-  procedure: String!
-  isActive: Boolean!
+  text: String!
+  published: Boolean! @default(value: "false")
 }

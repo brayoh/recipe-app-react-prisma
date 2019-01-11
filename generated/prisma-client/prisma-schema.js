@@ -1,5 +1,5 @@
 module.exports = {
-        typeDefs: /* GraphQL */ `type AggregateUser {
+        typeDefs: /* GraphQL */ `type AggregateRecipe {
   count: Int!
 }
 
@@ -7,15 +7,17 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  deleteUser(where: UserWhereUniqueInput!): User
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createRecipe(data: RecipeCreateInput!): Recipe!
+  updateRecipe(data: RecipeUpdateInput!, where: RecipeWhereUniqueInput!): Recipe
+  updateManyRecipes(data: RecipeUpdateManyMutationInput!, where: RecipeWhereInput): BatchPayload!
+  upsertRecipe(where: RecipeWhereUniqueInput!, create: RecipeCreateInput!, update: RecipeUpdateInput!): Recipe!
+  deleteRecipe(where: RecipeWhereUniqueInput!): Recipe
+  deleteManyRecipes(where: RecipeWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -36,79 +38,98 @@ type PageInfo {
 }
 
 type Query {
-  user(where: UserWhereUniqueInput!): User
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  recipe(where: RecipeWhereUniqueInput!): Recipe
+  recipes(where: RecipeWhereInput, orderBy: RecipeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Recipe]!
+  recipesConnection(where: RecipeWhereInput, orderBy: RecipeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RecipeConnection!
   node(id: ID!): Node
 }
 
-type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-}
-
-type User {
+type Recipe {
   id: ID!
+  createdAt: DateTime!
   name: String!
+  title: String!
+  text: String!
+  published: Boolean!
 }
 
-type UserConnection {
+type RecipeConnection {
   pageInfo: PageInfo!
-  edges: [UserEdge]!
-  aggregate: AggregateUser!
+  edges: [RecipeEdge]!
+  aggregate: AggregateRecipe!
 }
 
-input UserCreateInput {
+input RecipeCreateInput {
   name: String!
+  title: String!
+  text: String!
+  published: Boolean
 }
 
-type UserEdge {
-  node: User!
+type RecipeEdge {
+  node: Recipe!
   cursor: String!
 }
 
-enum UserOrderByInput {
+enum RecipeOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
   createdAt_ASC
   createdAt_DESC
+  name_ASC
+  name_DESC
+  title_ASC
+  title_DESC
+  text_ASC
+  text_DESC
+  published_ASC
+  published_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
-type UserPreviousValues {
+type RecipePreviousValues {
   id: ID!
+  createdAt: DateTime!
   name: String!
+  title: String!
+  text: String!
+  published: Boolean!
 }
 
-type UserSubscriptionPayload {
+type RecipeSubscriptionPayload {
   mutation: MutationType!
-  node: User
+  node: Recipe
   updatedFields: [String!]
-  previousValues: UserPreviousValues
+  previousValues: RecipePreviousValues
 }
 
-input UserSubscriptionWhereInput {
+input RecipeSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: UserWhereInput
-  AND: [UserSubscriptionWhereInput!]
-  OR: [UserSubscriptionWhereInput!]
-  NOT: [UserSubscriptionWhereInput!]
+  node: RecipeWhereInput
+  AND: [RecipeSubscriptionWhereInput!]
+  OR: [RecipeSubscriptionWhereInput!]
+  NOT: [RecipeSubscriptionWhereInput!]
 }
 
-input UserUpdateInput {
+input RecipeUpdateInput {
   name: String
+  title: String
+  text: String
+  published: Boolean
 }
 
-input UserUpdateManyMutationInput {
+input RecipeUpdateManyMutationInput {
   name: String
+  title: String
+  text: String
+  published: Boolean
 }
 
-input UserWhereInput {
+input RecipeWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -123,6 +144,14 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]
@@ -137,13 +166,47 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  AND: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  NOT: [UserWhereInput!]
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  published: Boolean
+  published_not: Boolean
+  AND: [RecipeWhereInput!]
+  OR: [RecipeWhereInput!]
+  NOT: [RecipeWhereInput!]
 }
 
-input UserWhereUniqueInput {
+input RecipeWhereUniqueInput {
   id: ID
+}
+
+type Subscription {
+  recipe(where: RecipeSubscriptionWhereInput): RecipeSubscriptionPayload
 }
 `
       }
