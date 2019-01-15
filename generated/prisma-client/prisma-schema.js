@@ -47,6 +47,7 @@ type Query {
 type Recipe {
   id: ID!
   createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   title: String!
   text: String!
@@ -76,6 +77,8 @@ enum RecipeOrderByInput {
   id_DESC
   createdAt_ASC
   createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   name_ASC
   name_DESC
   title_ASC
@@ -84,13 +87,12 @@ enum RecipeOrderByInput {
   text_DESC
   published_ASC
   published_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
 type RecipePreviousValues {
   id: ID!
   createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   title: String!
   text: String!
@@ -152,6 +154,14 @@ input RecipeWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
   name: String
   name_not: String
   name_in: [String!]

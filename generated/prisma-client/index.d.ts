@@ -108,6 +108,8 @@ export type RecipeOrderByInput =
   | "id_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC"
   | "name_ASC"
   | "name_DESC"
   | "title_ASC"
@@ -115,9 +117,7 @@ export type RecipeOrderByInput =
   | "text_ASC"
   | "text_DESC"
   | "published_ASC"
-  | "published_DESC"
-  | "updatedAt_ASC"
-  | "updatedAt_DESC";
+  | "published_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -151,6 +151,14 @@ export interface RecipeWhereInput {
   createdAt_lte?: DateTimeInput;
   createdAt_gt?: DateTimeInput;
   createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
   name?: String;
   name_not?: String;
   name_in?: String[] | String;
@@ -253,6 +261,7 @@ export interface RecipeEdgeSubscription
 export interface RecipePreviousValues {
   id: ID_Output;
   createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
   name: String;
   title: String;
   text: String;
@@ -264,6 +273,7 @@ export interface RecipePreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
   name: () => Promise<String>;
   title: () => Promise<String>;
   text: () => Promise<String>;
@@ -275,6 +285,7 @@ export interface RecipePreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   name: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
   text: () => Promise<AsyncIterator<String>>;
@@ -364,6 +375,7 @@ export interface RecipeSubscriptionPayloadSubscription
 export interface Recipe {
   id: ID_Output;
   createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
   name: String;
   title: String;
   text: String;
@@ -373,6 +385,7 @@ export interface Recipe {
 export interface RecipePromise extends Promise<Recipe>, Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
   name: () => Promise<String>;
   title: () => Promise<String>;
   text: () => Promise<String>;
@@ -384,6 +397,7 @@ export interface RecipeSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   name: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
   text: () => Promise<AsyncIterator<String>>;

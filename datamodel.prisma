@@ -1,6 +1,7 @@
 type Recipe {
   id: ID! @unique
   createdAt: DateTime!
+  updatedAt: DateTime!
   name: String!
   title: String!
   text: String!
