@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, withApollo } from 'react-apollo';
-import { Button, Col, Row, Empty, Spin, Layout, Icon, Menu } from 'antd';
+import { Col, Row, Empty, Spin, Layout, Icon, Menu } from 'antd';
 
 // components
 import AddRecipeContainer from '../AddRecipeContainer';
