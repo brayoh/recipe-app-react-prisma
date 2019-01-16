@@ -48,9 +48,9 @@ type Recipe {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
-  name: String!
   title: String!
-  text: String!
+  ingredients: String!
+  directions: String!
   published: Boolean!
 }
 
@@ -61,9 +61,9 @@ type RecipeConnection {
 }
 
 input RecipeCreateInput {
-  name: String!
   title: String!
-  text: String!
+  ingredients: String!
+  directions: String!
   published: Boolean
 }
 
@@ -79,12 +79,12 @@ enum RecipeOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
-  name_ASC
-  name_DESC
   title_ASC
   title_DESC
-  text_ASC
-  text_DESC
+  ingredients_ASC
+  ingredients_DESC
+  directions_ASC
+  directions_DESC
   published_ASC
   published_DESC
 }
@@ -93,9 +93,9 @@ type RecipePreviousValues {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
-  name: String!
   title: String!
-  text: String!
+  ingredients: String!
+  directions: String!
   published: Boolean!
 }
 
@@ -118,16 +118,16 @@ input RecipeSubscriptionWhereInput {
 }
 
 input RecipeUpdateInput {
-  name: String
   title: String
-  text: String
+  ingredients: String
+  directions: String
   published: Boolean
 }
 
 input RecipeUpdateManyMutationInput {
-  name: String
   title: String
-  text: String
+  ingredients: String
+  directions: String
   published: Boolean
 }
 
@@ -162,20 +162,6 @@ input RecipeWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
   title: String
   title_not: String
   title_in: [String!]
@@ -190,20 +176,34 @@ input RecipeWhereInput {
   title_not_starts_with: String
   title_ends_with: String
   title_not_ends_with: String
-  text: String
-  text_not: String
-  text_in: [String!]
-  text_not_in: [String!]
-  text_lt: String
-  text_lte: String
-  text_gt: String
-  text_gte: String
-  text_contains: String
-  text_not_contains: String
-  text_starts_with: String
-  text_not_starts_with: String
-  text_ends_with: String
-  text_not_ends_with: String
+  ingredients: String
+  ingredients_not: String
+  ingredients_in: [String!]
+  ingredients_not_in: [String!]
+  ingredients_lt: String
+  ingredients_lte: String
+  ingredients_gt: String
+  ingredients_gte: String
+  ingredients_contains: String
+  ingredients_not_contains: String
+  ingredients_starts_with: String
+  ingredients_not_starts_with: String
+  ingredients_ends_with: String
+  ingredients_not_ends_with: String
+  directions: String
+  directions_not: String
+  directions_in: [String!]
+  directions_not_in: [String!]
+  directions_lt: String
+  directions_lte: String
+  directions_gt: String
+  directions_gte: String
+  directions_contains: String
+  directions_not_contains: String
+  directions_starts_with: String
+  directions_not_starts_with: String
+  directions_ends_with: String
+  directions_not_ends_with: String
   published: Boolean
   published_not: Boolean
   AND: [RecipeWhereInput!]
@@ -213,6 +213,7 @@ input RecipeWhereInput {
 
 input RecipeWhereUniqueInput {
   id: ID
+  title: String
 }
 
 type Subscription {

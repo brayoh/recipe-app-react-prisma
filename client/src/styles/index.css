@@ -39,3 +39,7 @@ body {
   width: 80px !important;
   height: 80px !important;
 }
+
+.pointer:hover {
+  cursor: pointer !important;
+}

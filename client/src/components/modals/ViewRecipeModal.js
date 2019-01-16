@@ -1,15 +1,20 @@
 import React from 'react';
-import { Modal } from 'antd';
+import { Card, Modal } from 'antd';
 
-const ViewRecipeModal = ({ modalOpen, recipeData, handleCloseModal }) => (
+const ViewRecipeModal = ({ modalOpen, recipe, handleCloseModal }) => (
   <Modal
-    title={`${recipeData.name} - ${recipeData.title}`}
+    title={recipe.title}
     centered
     visible={modalOpen}
     onOk={handleCloseModal}
     onCancel={handleCloseModal}
   >
-    <p>{recipeData.text}</p>
+    <Card type="inner" title="Ingredients" style={{ marginBottom: '15px' }}>
+      {recipe.ingredients}
+    </Card>
+    <Card type="inner" title="Directions">
+      {recipe.directions}
+    </Card>
   </Modal>
 );
 

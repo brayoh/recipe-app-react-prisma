@@ -110,21 +110,21 @@ export type RecipeOrderByInput =
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC"
-  | "name_ASC"
-  | "name_DESC"
   | "title_ASC"
   | "title_DESC"
-  | "text_ASC"
-  | "text_DESC"
+  | "ingredients_ASC"
+  | "ingredients_DESC"
+  | "directions_ASC"
+  | "directions_DESC"
   | "published_ASC"
   | "published_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export interface RecipeCreateInput {
-  name: String;
   title: String;
-  text: String;
+  ingredients: String;
+  directions: String;
   published?: Boolean;
 }
 
@@ -159,20 +159,6 @@ export interface RecipeWhereInput {
   updatedAt_lte?: DateTimeInput;
   updatedAt_gt?: DateTimeInput;
   updatedAt_gte?: DateTimeInput;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
   title?: String;
   title_not?: String;
   title_in?: String[] | String;
@@ -187,20 +173,34 @@ export interface RecipeWhereInput {
   title_not_starts_with?: String;
   title_ends_with?: String;
   title_not_ends_with?: String;
-  text?: String;
-  text_not?: String;
-  text_in?: String[] | String;
-  text_not_in?: String[] | String;
-  text_lt?: String;
-  text_lte?: String;
-  text_gt?: String;
-  text_gte?: String;
-  text_contains?: String;
-  text_not_contains?: String;
-  text_starts_with?: String;
-  text_not_starts_with?: String;
-  text_ends_with?: String;
-  text_not_ends_with?: String;
+  ingredients?: String;
+  ingredients_not?: String;
+  ingredients_in?: String[] | String;
+  ingredients_not_in?: String[] | String;
+  ingredients_lt?: String;
+  ingredients_lte?: String;
+  ingredients_gt?: String;
+  ingredients_gte?: String;
+  ingredients_contains?: String;
+  ingredients_not_contains?: String;
+  ingredients_starts_with?: String;
+  ingredients_not_starts_with?: String;
+  ingredients_ends_with?: String;
+  ingredients_not_ends_with?: String;
+  directions?: String;
+  directions_not?: String;
+  directions_in?: String[] | String;
+  directions_not_in?: String[] | String;
+  directions_lt?: String;
+  directions_lte?: String;
+  directions_gt?: String;
+  directions_gte?: String;
+  directions_contains?: String;
+  directions_not_contains?: String;
+  directions_starts_with?: String;
+  directions_not_starts_with?: String;
+  directions_ends_with?: String;
+  directions_not_ends_with?: String;
   published?: Boolean;
   published_not?: Boolean;
   AND?: RecipeWhereInput[] | RecipeWhereInput;
@@ -209,16 +209,16 @@ export interface RecipeWhereInput {
 }
 
 export interface RecipeUpdateInput {
-  name?: String;
   title?: String;
-  text?: String;
+  ingredients?: String;
+  directions?: String;
   published?: Boolean;
 }
 
 export interface RecipeUpdateManyMutationInput {
-  name?: String;
   title?: String;
-  text?: String;
+  ingredients?: String;
+  directions?: String;
   published?: Boolean;
 }
 
@@ -235,6 +235,7 @@ export interface RecipeSubscriptionWhereInput {
 
 export type RecipeWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
+  title?: String;
 }>;
 
 export interface NodeNode {
@@ -262,9 +263,9 @@ export interface RecipePreviousValues {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
-  name: String;
   title: String;
-  text: String;
+  ingredients: String;
+  directions: String;
   published: Boolean;
 }
 
@@ -274,9 +275,9 @@ export interface RecipePreviousValuesPromise
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
-  name: () => Promise<String>;
   title: () => Promise<String>;
-  text: () => Promise<String>;
+  ingredients: () => Promise<String>;
+  directions: () => Promise<String>;
   published: () => Promise<Boolean>;
 }
 
@@ -286,9 +287,9 @@ export interface RecipePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  name: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
-  text: () => Promise<AsyncIterator<String>>;
+  ingredients: () => Promise<AsyncIterator<String>>;
+  directions: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
 }
 
@@ -376,9 +377,9 @@ export interface Recipe {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
-  name: String;
   title: String;
-  text: String;
+  ingredients: String;
+  directions: String;
   published: Boolean;
 }
 
@@ -386,9 +387,9 @@ export interface RecipePromise extends Promise<Recipe>, Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
-  name: () => Promise<String>;
   title: () => Promise<String>;
-  text: () => Promise<String>;
+  ingredients: () => Promise<String>;
+  directions: () => Promise<String>;
   published: () => Promise<Boolean>;
 }
 
@@ -398,9 +399,9 @@ export interface RecipeSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  name: () => Promise<AsyncIterator<String>>;
   title: () => Promise<AsyncIterator<String>>;
-  text: () => Promise<AsyncIterator<String>>;
+  ingredients: () => Promise<AsyncIterator<String>>;
+  directions: () => Promise<AsyncIterator<String>>;
   published: () => Promise<AsyncIterator<Boolean>>;
 }
 
@@ -426,11 +427,6 @@ export interface RecipeConnectionSubscription
 }
 
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
-
-/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -439,6 +435,11 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
+
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
 
 export type Long = string;
 

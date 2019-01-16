@@ -1,14 +1,76 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Card } from 'antd';
+import React, { Fragment } from 'react';
+import { Popconfirm, Card, Icon } from 'antd';
 
-const RecipeCard = ({ title, content, recipeId, handleOnClick }) => {
+const RecipeCard = ({
+  title,
+  content,
+  id,
+  handleOnClick,
+  handleOnEdit,
+  handleOnDelete,
+  directions,
+  ingredients,
+  published
+}) => {
   return (
     <Card
-      hoverable
+      // hoverable
       title={title}
       bordered={false}
-      extra={<p onClick={() => handleOnClick(recipeId)}>View</p>}
+      extra={
+        <Fragment>
+          <span
+            className="pointer"
+            onClick={() =>
+              handleOnEdit({ id, directions, ingredients, title, published })
+            }
+          >
+            <Icon
+              style={{
+                fontSize: '1.25rem',
+                color: '#08c',
+                marginRight: '0.625rem'
+              }}
+              type="edit"
+            />
+          </span>
+          <Popconfirm
+            title="Are you sure delete this recipe?"
+            onConfirm={() =>
+              handleOnDelete({
+                id,
+                directions,
+                ingredients,
+                title,
+                published
+              })
+            }
+            okText="Yes"
+            cancelText="No"
+          >
+            <span className="pointer">
+              <Icon
+                style={{
+                  fontSize: '1.25rem',
+                  color: '#08c',
+                  marginRight: '0.625rem'
+                }}
+                type="delete"
+              />
+            </span>
+          </Popconfirm>
+          <span className="pointer">
+            <Icon
+              style={{
+                fontSize: '1.25rem',
+                color: '#08c'
+              }}
+              type="eye"
+              onClick={() => handleOnClick(id)}
+            />
+          </span>
+        </Fragment>
+      }
       style={{
         marginBottom: '50px'
       }}

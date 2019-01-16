@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Form, Input, Switch } from 'antd';
 
-const formItemLayout = { labelCol: { span: 4 }, wrapperCol: { span: 14 } };
+const formItemLayout = { labelCol: { span: 5 }, wrapperCol: { span: 14 } };
 
 const AddRecipeModal = ({
   modalOpen,
@@ -9,9 +9,9 @@ const AddRecipeModal = ({
   handleCloseModal,
   handleChecked,
   handleChange,
-  text,
-  name,
   title,
+  ingredients,
+  directions,
   published,
   ...props
 }) => (
@@ -23,15 +23,7 @@ const AddRecipeModal = ({
     onCancel={handleCloseModal}
   >
     <Form layout="horizontal">
-      <Form.Item label="Name" {...formItemLayout}>
-        <Input
-          value={name}
-          onChange={handleChange}
-          name="name"
-          placeholder="recipe name"
-        />
-      </Form.Item>
-      <Form.Item label="title" {...formItemLayout}>
+      <Form.Item label="Title" {...formItemLayout}>
         <Input
           value={title}
           onChange={handleChange}
@@ -39,12 +31,20 @@ const AddRecipeModal = ({
           name="title"
         />
       </Form.Item>
-      <Form.Item label="text" {...formItemLayout}>
+      <Form.Item label="Ingredients" {...formItemLayout}>
         <Input.TextArea
-          value={text}
+          value={ingredients}
           onChange={handleChange}
-          placeholder="recipe instructions"
-          name="text"
+          name="ingredients"
+          placeholder="recipe ingredients"
+        />
+      </Form.Item>
+      <Form.Item label="Directions" {...formItemLayout}>
+        <Input.TextArea
+          value={directions}
+          onChange={handleChange}
+          placeholder="recipe directions"
+          name="directions"
         />
       </Form.Item>
       <Form.Item label="Published" {...formItemLayout}>

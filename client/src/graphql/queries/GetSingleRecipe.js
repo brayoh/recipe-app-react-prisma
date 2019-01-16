@@ -6,8 +6,8 @@ export default gql`
       id
       createdAt
       title
-      name
-      text
+      directions
+      ingredients
       published
     }
   }
