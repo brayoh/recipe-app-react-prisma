@@ -41,8 +41,7 @@ const RecipeCard = ({
                 id,
                 directions,
                 ingredients,
-                title,
-                published
+                title
               })
             }
             okText="Yes"

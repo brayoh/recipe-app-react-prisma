@@ -1,18 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
-import {
-  Card,
-  Col,
-  Row,
-  Empty,
-  Spin,
-  Layout,
-  Icon,
-  Menu,
-  Button,
-  notification,
-  Popconfirm
-} from 'antd';
+import { Card, Col, Row, Empty, Spin, Button, notification } from 'antd';
 
 // components
 import ViewRecipeModal from '../../components/modals/ViewRecipeModal';
@@ -26,6 +14,7 @@ import GetSingleRecipe from '../../graphql/queries/GetSingleRecipe';
 // mutations
 import UpdateRecipe from '../../graphql/mutations/UpdateRecipe';
 import AddNewRecipe from '../../graphql/mutations/AddNewRecipe';
+import SideBar from '../../components/SideBar/SideBar';
 
 const initialState = {
   form: {
@@ -112,7 +101,14 @@ class AllRecipesContainer extends Component {
     }));
   };
 
-  _handleOnDelete = ({ id, directions, ingredients, title, published }) => {
+  _updateRecipe = ({
+    id,
+    directions,
+    ingredients,
+    title,
+    published,
+    action
+  }) => {
     this.props
       .updateRecipeMutation({
         variables: {
@@ -140,7 +136,7 @@ class AllRecipesContainer extends Component {
                   notification: {
                     notificationOpen: true,
                     type: 'success',
-                    message: `recipe ${title} deleted successfully`,
+                    message: `recipe ${title} ${action} successfully`,
                     title: 'Success'
                   }
                 }),
@@ -162,57 +158,30 @@ class AllRecipesContainer extends Component {
       });
   };
 
+  _handleOnDelete = ({ id, directions, ingredients, title }) => {
+    this._updateRecipe({
+      id,
+      directions,
+      ingredients,
+      title,
+      published: false,
+      action: 'deleted'
+    });
+  };
+
   _handleSubmit = event => {
     const { directions, ingredients, title, published } = this.state.form;
+    const { recipeId, isEditing } = this.state;
 
-    if (this.state.isEditing) {
-      this.props
-        .updateRecipeMutation({
-          variables: {
-            id: this.state.recipeId,
-            directions,
-            title,
-            ingredients,
-            published
-          },
-          refetchQueries: [
-            {
-              query: GetAllPublishedRecipes
-            }
-          ]
-        })
-        .then(res => {
-          if (res.data.updateRecipe.id) {
-            this.setState(
-              (prevState, nextProps) => ({
-                isEditing: false
-              }),
-              () =>
-                this.setState(
-                  (prevState, nextProps) => ({
-                    notification: {
-                      notificationOpen: true,
-                      type: 'success',
-                      message: `recipe ${title} updated successfully`,
-                      title: 'Success'
-                    }
-                  }),
-                  () => this._handleResetState()
-                )
-            );
-          }
-        })
-        .catch(e => {
-          this.setState((prevState, nextProps) => ({
-            notification: {
-              ...prevState.notification,
-              notificationOpen: true,
-              type: 'error',
-              message: e.message,
-              title: 'Error Occured'
-            }
-          }));
-        });
+    if (isEditing) {
+      this._updateRecipe({
+        id: recipeId,
+        directions,
+        ingredients,
+        title,
+        published,
+        action: 'edited'
+      });
     } else {
       this.props
         .addNewRecipeMutation({
@@ -276,7 +245,6 @@ class AllRecipesContainer extends Component {
   render() {
     const { loading, recipes } = this.props.data;
     const { viewModalOpen, recipeData, isEditing, addModalOpen } = this.state;
-    const { Header, Content, Sider } = Layout;
 
     return (
       <Fragment>
@@ -286,86 +254,61 @@ class AllRecipesContainer extends Component {
           recipe={recipeData}
         />
 
-        <Layout className="cover">
-          <Sider id="sider-menu" breakpoint="lg" collapsedWidth="0">
-            <div className="logo" />
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={['home']}>
-              <Menu.Item key="home">
-                <Icon type="user" />
-                <span className="nav-ingredients">Home</span>
-              </Menu.Item>
-            </Menu>
-          </Sider>
-          <Layout>
-            <Header style={{ background: '#fff', padding: 0 }} />
-            <Content style={{ margin: '24px 16px 0' }}>
-              {loading ? (
-                <div className="spin-container">
-                  <Spin />
-                </div>
-              ) : recipes.length > 0 ? (
-                <Row gutter={16}>
-                  {recipes.map(recipe => (
-                    <Col span={6} key={recipe.id}>
-                      <RecipeCard
-                        title={recipe.title}
-                        content={
-                          <Fragment>
-                            <Card
-                              type="inner"
-                              title="Ingredients"
-                              style={{ marginBottom: '15px' }}
-                            >
-                              {`${recipe.ingredients.substring(0, 50)}.....`}
-                            </Card>
-                            <Card type="inner" title="Directions">
-                              {`${recipe.directions.substring(0, 50)}.....`}
-                            </Card>
-                          </Fragment>
-                        }
-                        handleOnClick={this._handleOnClick}
-                        handleOnEdit={this._handleOnEdit}
-                        handleOnDelete={this._handleOnDelete}
-                        {...recipe}
-                      />
-                    </Col>
-                  ))}
-                </Row>
-              ) : (
-                <Empty />
-              )}
-              {isEditing ? (
-                <AddRecipeModal
-                  modalOpen={isEditing}
-                  handleCloseModal={this._handleCloseModal}
-                  handleSubmit={this._handleSubmit}
-                  handleChecked={this._handleChecked}
-                  handleChange={this._handleChange}
-                  {...this.state.form}
-                />
-              ) : (
-                <AddRecipeModal
-                  modalOpen={addModalOpen}
-                  handleCloseModal={this._handleCloseModal}
-                  handleSubmit={this._handleSubmit}
-                  handleChecked={this._handleChecked}
-                  handleChange={this._handleChange}
-                  {...this.state.form}
-                />
-              )}
-              <div className="fab-container">
-                <Button
-                  type="primary"
-                  shape="circle"
-                  icon="plus"
-                  size="large"
-                  onClick={this._handleOpenAddModal}
-                />
-              </div>
-              {this._renderNotification()}
-            </Content>
-          </Layout>
-        </Layout>
+        <SideBar>
+          {loading ? (
+            <div className="spin-container">
+              <Spin />
+            </div>
+          ) : recipes.length > 0 ? (
+            <Row gutter={16}>
+              {recipes.map(recipe => (
+                <Col span={6} key={recipe.id}>
+                  <RecipeCard
+                    title={recipe.title}
+                    content={
+                      <Fragment>
+                        <Card
+                          type="inner"
+                          title="Ingredients"
+                          style={{ marginBottom: '15px' }}
+                        >
+                          {`${recipe.ingredients.substring(0, 50)}.....`}
+                        </Card>
+                        <Card type="inner" title="Directions">
+                          {`${recipe.directions.substring(0, 50)}.....`}
+                        </Card>
+                      </Fragment>
+                    }
+                    handleOnClick={this._handleOnClick}
+                    handleOnEdit={this._handleOnEdit}
+                    handleOnDelete={this._handleOnDelete}
+                    {...recipe}
+                  />
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <Empty />
+          )}
+          <AddRecipeModal
+            modalOpen={addModalOpen || isEditing}
+            handleCloseModal={this._handleCloseModal}
+            handleSubmit={this._handleSubmit}
+            handleChecked={this._handleChecked}
+            handleChange={this._handleChange}
+            {...this.state.form}
+          />
+          <div className="fab-container">
+            <Button
+              type="primary"
+              shape="circle"
+              icon="plus"
+              size="large"
+              onClick={this._handleOpenAddModal}
+            />
+          </div>
+          {this._renderNotification()}
+        </SideBar>
       </Fragment>
     );
   }
