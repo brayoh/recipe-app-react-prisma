@@ -15,7 +15,6 @@ import {
 } from 'antd';
 
 // components
-import AddRecipeContainer from '../AddRecipeContainer';
 import ViewRecipeModal from '../../components/modals/ViewRecipeModal';
 import AddRecipeModal from '../../components/modals/AddRecipeModal';
 import RecipeCard from '../../components/RecipeCard';
