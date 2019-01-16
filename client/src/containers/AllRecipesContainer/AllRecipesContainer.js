@@ -116,7 +116,7 @@ class AllRecipesContainer extends Component {
           directions,
           title,
           ingredients,
-          published: false
+          published
         },
         refetchQueries: [
           {
