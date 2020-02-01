@@ -25,6 +25,8 @@ services:
     environment:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
+    ports:
+      - "5442:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
 volumes:
